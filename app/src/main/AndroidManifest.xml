@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DogWalkingApp">
         <activity
-            android:name=".MainActivity"
+            android:name=".WalkTracking"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,5 +19,7 @@
             </intent-filter>
         </activity>
     </application>
-
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 </manifest>
