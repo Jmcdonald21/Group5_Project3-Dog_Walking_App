@@ -1,6 +1,7 @@
 package com.example.dogwalkingapp;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 
@@ -9,12 +10,12 @@ import com.google.android.gms.location.LocationRequest;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -24,8 +25,8 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 
 public class WalkTracking extends AppCompatActivity {
@@ -37,6 +38,8 @@ public class WalkTracking extends AppCompatActivity {
     LocationCallback locationCallBack;
     double distanceTraveled;
     TextView trackingDisplay;
+    Handler h = new Handler();
+    int delay = 100; //milliseconds
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +75,17 @@ public class WalkTracking extends AppCompatActivity {
     }
 
     public void onStartTracking(View view) {
+
+        Toast.makeText(this, "Tracking Started", Toast.LENGTH_SHORT).show();
+
         startLocationUpdates();
+
+        h.postDelayed(new Runnable(){
+            public void run(){
+                updateTracker(distanceTraveled);
+                h.postDelayed(this, delay);
+            }
+        }, delay);
     }
 
     private void startLocationUpdates() {
@@ -86,7 +99,9 @@ public class WalkTracking extends AppCompatActivity {
                     distanceTraveled = 0.0;
                 }
                 else {
-                    distanceTraveled += PreviousLocation.distanceTo(CurrentLocation);
+                    distanceTraveled += BigDecimal.valueOf((PreviousLocation.distanceTo(CurrentLocation)*0.000621371192))
+                                            .setScale(3, RoundingMode.HALF_UP)
+                                            .doubleValue();
                 }
             }
         };
@@ -95,14 +110,20 @@ public class WalkTracking extends AppCompatActivity {
     }
 
     public void updateTracker(double distance) {
-        trackingDisplay.setText("Total Distance Walked:\n"+ distance + " Meters");
+        trackingDisplay.setText("Total Distance Walked:\n"+ distance + " Miles");
     }
 
     public void onStopTracking(View view) {
-        updateTracker(distanceTraveled);
+        Toast.makeText(this, "Tracking Stopped", Toast.LENGTH_SHORT).show();
+        trackingDisplay.setText(getString(R.string.click_start_tracking_to_begin));
+        distanceTraveled = 0;
+        h.removeCallbacksAndMessages(null);
+        fusedLocationClient.removeLocationUpdates(locationCallBack);
     }
 
     public void onHome(View view) {
+        Intent intent = new Intent(this, StatScreen.class);
+        startActivity(intent);
     }
 
     private void updateGPS() {
