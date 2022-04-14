@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DogWalkingApp">
         <activity
+            android:name=".AccountSettings"
+            android:exported="false" />
+        <activity
             android:name=".WalkTracking"
             android:exported="true">
             <intent-filter>
@@ -23,9 +26,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:label="Dog Walking App"
-            android:name=".StatScreen" >
-        </activity>
+            android:name=".StatScreen"
+            android:label="Dog Walking App"></activity>
     </application>
 
 </manifest>
