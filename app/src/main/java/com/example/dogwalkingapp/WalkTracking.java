@@ -4,10 +4,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 
 import android.os.Build;
@@ -18,144 +15,112 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.util.Timer;
 import java.util.TimerTask;
 
-public class WalkTracking extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
-    private FusedLocationProviderClient fusedLocationClient;
-    private Location mPreviousLocation, mCurrentLocation;
-    GoogleApiClient mGoogleApiClient;
-    LocationRequest mLocationRequest;
+public class WalkTracking extends AppCompatActivity {
+
+    private static final int PERMISSIONS_FINE_LOCATION = 99;
+    FusedLocationProviderClient fusedLocationClient;
+    Location PreviousLocation, CurrentLocation;
+    LocationRequest LocationRequest;
+    LocationCallback locationCallBack;
     double distanceTraveled;
+    TextView trackingDisplay;
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.walk_tracking);
+        trackingDisplay = findViewById(R.id.trackingCounter);
 
-        ActivityResultLauncher<String[]> locationPermissionRequest =
-                registerForActivityResult(new ActivityResultContracts
-                                .RequestMultiplePermissions(), result -> {
-                            Boolean fineLocationGranted = result.getOrDefault(
-                                    Manifest.permission.ACCESS_FINE_LOCATION, false);
-                            Boolean coarseLocationGranted = result.getOrDefault(
-                                    Manifest.permission.ACCESS_COARSE_LOCATION, false);
-                            if (fineLocationGranted != null && fineLocationGranted) {
-                                // Precise location access granted.
-                            } else if (coarseLocationGranted != null && coarseLocationGranted) {
-                                // Only approximate location access granted.
-                            } else {
-                                // No location access granted.
-                            }
-                        }
-                );
+        LocationRequest = new LocationRequest();
+        LocationRequest.setInterval(1000); //1 seconds
+        LocationRequest.setFastestInterval(500); //.5 seconds
+        LocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        LocationRequest.setSmallestDisplacement(1); //1 meter
 
-        locationPermissionRequest.launch(new String[]{
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-        });
-
-        buildGoogleApiClient();
-
-        mGoogleApiClient.connect(); //add this here
+        updateGPS();
 
     }
 
-    protected synchronized void buildGoogleApiClient() {
-        Toast.makeText(this, "buildGoogleApiClient", Toast.LENGTH_SHORT).show();
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch(requestCode) {
+            case PERMISSIONS_FINE_LOCATION:
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    updateGPS();
+                }
+                else {
+                    Toast.makeText(this, "This app requires permission to be granted in order to work properly", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                break;
+        }
     }
 
     public void onStartTracking(View view) {
-
+        startLocationUpdates();
     }
 
-    public void updateTextView(double toThis) {
-        TextView textView = (TextView) findViewById(R.id.trackingCounter);
-        textView.setText("Current Distance Traveled: " + toThis);
+    private void startLocationUpdates() {
+        PreviousLocation = CurrentLocation;
+        locationCallBack = new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+                CurrentLocation = locationResult.getLastLocation();
+                if (PreviousLocation == null) {
+                    distanceTraveled = 0.0;
+                }
+                else {
+                    distanceTraveled += PreviousLocation.distanceTo(CurrentLocation);
+                }
+            }
+        };
+        fusedLocationClient.requestLocationUpdates(LocationRequest, locationCallBack, null);
+        updateGPS();
+    }
+
+    public void updateTracker(double distance) {
+        trackingDisplay.setText("Total Distance Walked:\n"+ distance + " Meters");
     }
 
     public void onStopTracking(View view) {
+        updateTracker(distanceTraveled);
     }
 
     public void onHome(View view) {
     }
 
-    class UpdateTimeTask extends TimerTask {
-        public void run() {
-            distanceTraveled += 1;
-            updateTextView(distanceTraveled);
+    private void updateGPS() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(WalkTracking.this);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    CurrentLocation = location;
+                }
+            });
+        }
+        else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_FINE_LOCATION);
+            }
         }
     }
 
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        Toast.makeText(this, "onConnected", Toast.LENGTH_SHORT).show();
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                mGoogleApiClient);
-
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(10000); //10 seconds
-        mLocationRequest.setFastestInterval(5000); //5 seconds
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        mLocationRequest.setSmallestDisplacement(1); //1 meter
-
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-
-        mPreviousLocation = mLastLocation;
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        Toast.makeText(this, "onConnectionSuspended", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        Toast.makeText(this, "onConnectionFailed", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-
-        Toast.makeText(this, "Location Changed", Toast.LENGTH_SHORT).show();
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        Location mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
-                mGoogleApiClient);
-
-        mCurrentLocation = mLastLocation;
-
-    }
 }
