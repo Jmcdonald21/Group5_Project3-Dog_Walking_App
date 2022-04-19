@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <application
         android:allowBackup="true"
@@ -35,7 +36,8 @@
             android:name=".StatScreen"
             android:label="Dog Walking App"></activity>
 
-        <service android:name=".TrackingService" />
+        <service android:name=".TrackingService"
+                 android:foregroundServiceType="location"/>
     </application>
 
 </manifest>
