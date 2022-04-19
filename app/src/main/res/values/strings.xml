@@ -13,4 +13,10 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="change_email">Change Emal</string>
+    <string name="change_password">Change Password</string>
+    <string name="logout">Logout</string>
+    <string name="welcome_to_walk_tracking">Welcome to Walk Tracking!</string>
+    <string name="login">Login</string>
+    <string name="new_user_click_here">New User? Click Here</string>
 </resources>
