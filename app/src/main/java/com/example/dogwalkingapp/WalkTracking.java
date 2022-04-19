@@ -1,7 +1,10 @@
 package com.example.dogwalkingapp;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Location;
 
@@ -11,8 +14,8 @@ import com.google.android.gms.location.LocationRequest;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,25 +39,18 @@ public class WalkTracking extends AppCompatActivity {
     Location PreviousLocation, CurrentLocation;
     LocationRequest LocationRequest;
     LocationCallback locationCallBack;
+    BroadcastReceiver broadcastReceiver;
     double distanceTraveled;
     TextView trackingDisplay;
     Handler h = new Handler();
     int delay = 100; //milliseconds
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.walk_tracking);
         trackingDisplay = findViewById(R.id.trackingCounter);
-
-        LocationRequest = new LocationRequest();
-        LocationRequest.setInterval(1000); //1 seconds
-        LocationRequest.setFastestInterval(500); //.5 seconds
-        LocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        LocationRequest.setSmallestDisplacement(1); //1 meter
-
-        updateGPS();
-
     }
 
     @Override
@@ -75,10 +71,17 @@ public class WalkTracking extends AppCompatActivity {
     }
 
     public void onStartTracking(View view) {
-
-        Toast.makeText(this, "Tracking Started", Toast.LENGTH_SHORT).show();
-
-        startLocationUpdates();
+        Intent i = new Intent(getApplicationContext(), TrackingService.class);
+        startService(i);
+        if (broadcastReceiver == null) {
+            broadcastReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    distanceTraveled = intent.getDoubleExtra("distanceTraveled",0);
+                }
+            };
+        }
+        registerReceiver(broadcastReceiver, new IntentFilter("GPS_UPDATE"));
 
         h.postDelayed(new Runnable(){
             public void run(){
@@ -86,6 +89,7 @@ public class WalkTracking extends AppCompatActivity {
                 h.postDelayed(this, delay);
             }
         }, delay);
+
     }
 
     private void startLocationUpdates() {
@@ -118,7 +122,7 @@ public class WalkTracking extends AppCompatActivity {
         trackingDisplay.setText(getString(R.string.click_start_tracking_to_begin));
         distanceTraveled = 0;
         h.removeCallbacksAndMessages(null);
-        fusedLocationClient.removeLocationUpdates(locationCallBack);
+
     }
 
     public void onHome(View view) {
@@ -143,5 +147,4 @@ public class WalkTracking extends AppCompatActivity {
             }
         }
     }
-
 }
