@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "134322830850",
+    "project_id": "dogwalking-22d15",
+    "storage_bucket": "dogwalking-22d15.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:134322830850:android:2dcae5490973b0dd73b11b",
+        "android_client_info": {
+          "package_name": "com.example.dogwalkingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "134322830850-pae8l4u9hgd16d2th2hriv9lal3m9j4a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCBl4FHJY1LcSv20kO9ECnl3J_81bqd77g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "134322830850-pae8l4u9hgd16d2th2hriv9lal3m9j4a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
