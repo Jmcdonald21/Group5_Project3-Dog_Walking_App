@@ -2,6 +2,8 @@ package com.example.dogwalkingapp;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.DatePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,21 +14,29 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class StatScreen extends AppCompatActivity {
+    Date startDate, endDate;
+    double distanceTraveled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.stat_screen);
+    }
 
+    public void loadGraph(View view) {
         BarChart barChart = findViewById(R.id.barChart);
-
         ArrayList<BarEntry> walks = new ArrayList<>();
-        walks.add(new BarEntry(1, .42F));
-        walks.add(new BarEntry(2, 1.2F));
-        walks.add(new BarEntry(3, 1.5F));
+
+        DatePicker startDatePicker = (DatePicker)findViewById(R.id.startDateSelector);
+        DatePicker endDatePicker = (DatePicker)findViewById(R.id.endDateSelector);
+
+        for (int i = startDatePicker.getDayOfMonth(); i < endDatePicker.getDayOfMonth(); i++) {
+                walks.add(new BarEntry(i, .53F));
+        }
 
         BarDataSet barDataSet = new BarDataSet(walks, "Hours Walked");
         barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
@@ -39,6 +49,5 @@ public class StatScreen extends AppCompatActivity {
         barChart.setData(barData);
         barChart.getDescription().setText("Weekly Walks");
         barChart.animateY(2000);
-
     }
 }

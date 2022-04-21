@@ -6,48 +6,53 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.icu.text.DecimalFormat;
+import android.icu.util.Calendar;
 import android.location.Location;
 
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
+
 
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
+import android.text.format.Time;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationResult;
+
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.util.Date;
+import java.util.HashMap;
 
 
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class WalkTracking extends AppCompatActivity {
 
     private static final int PERMISSIONS_FINE_LOCATION = 99;
-    FusedLocationProviderClient fusedLocationClient;
-    Location PreviousLocation, CurrentLocation;
-    LocationRequest LocationRequest;
-    LocationCallback locationCallBack;
-    BroadcastReceiver broadcastReceiver;
-    double distanceTraveled;
-    TextView trackingDisplay;
-    Handler h = new Handler();
-    int delay = 100; //milliseconds
-
+    private FusedLocationProviderClient fusedLocationClient;
+    private Location CurrentLocation;
+    private BroadcastReceiver broadcastReceiver;
+    private double distanceTraveled;
+    private Long walkStartTime, walkEndTime;
+    private TextView trackingDisplay;
+    private Handler h = new Handler();
+    private int delay = 100; //milliseconds
+    private DecimalFormat formatter = new DecimalFormat("0.00");
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
+    private Date startDate, endDate;
+    private String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,11 +81,16 @@ public class WalkTracking extends AppCompatActivity {
     public void onStartTracking(View view) {
         Intent i = new Intent(getApplicationContext(), TrackingService.class);
         startService(i);
+
         if (broadcastReceiver == null) {
             broadcastReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
                     distanceTraveled = intent.getDoubleExtra("distanceTraveled",0);
+                    walkStartTime = intent.getLongExtra("walkStartTime", 0);
+                    walkEndTime = intent.getLongExtra("walkEndTime", 0);
+                    startDate = new Date(walkStartTime);
+                    endDate = new Date(walkEndTime);
                 }
             };
         }
@@ -88,41 +98,39 @@ public class WalkTracking extends AppCompatActivity {
 
         h.postDelayed(new Runnable(){
             public void run(){
-                updateTracker(distanceTraveled);
+                updateTracker(formatter.format(distanceTraveled));
                 h.postDelayed(this, delay);
             }
         }, delay);
 
     }
 
-    private void startLocationUpdates() {
-        PreviousLocation = CurrentLocation;
-        locationCallBack = new LocationCallback() {
-            @Override
-            public void onLocationResult(@NonNull LocationResult locationResult) {
-                super.onLocationResult(locationResult);
-                CurrentLocation = locationResult.getLastLocation();
-                if (PreviousLocation == null) {
-                    distanceTraveled = 0.0;
-                }
-                else {
-                    distanceTraveled += BigDecimal.valueOf((PreviousLocation.distanceTo(CurrentLocation)*0.000621371192))
-                                            .setScale(3, RoundingMode.HALF_UP)
-                                            .doubleValue();
-                }
-            }
-        };
-        fusedLocationClient.requestLocationUpdates(LocationRequest, locationCallBack, null);
-        updateGPS();
-    }
-
-    public void updateTracker(double distance) {
+    public void updateTracker(String distance) {
         trackingDisplay.setText("Total Distance Walked:\n"+ distance + " Miles");
     }
 
     public void onStopTracking(View view) {
-        Toast.makeText(this, "Tracking Stopped", Toast.LENGTH_SHORT).show();
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("walkDistance", distanceTraveled);
+        hashMap.put("walkStartTime", startDate);
+        hashMap.put("walkEndTime", endDate);
+
+        /*
+
+        databaseReference.child("Users")
+                .child(userName)
+                .setValue(hashMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(WalkTracking.this,"hello", Toast.LENGTH_SHORT).show();                 }
+                });
+
+         */
+
         trackingDisplay.setText(getString(R.string.click_start_tracking_to_begin));
+        Intent i = new Intent(getApplicationContext(), TrackingService.class);
+        stopService(i);
         distanceTraveled = 0;
         h.removeCallbacksAndMessages(null);
 

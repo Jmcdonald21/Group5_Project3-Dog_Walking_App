@@ -19,4 +19,7 @@
     <string name="welcome_to_walk_tracking">Welcome to Walk Tracking!</string>
     <string name="login">Login</string>
     <string name="new_user_click_here">New User? Click Here</string>
+    <string name="select_start_date">Select Start Date:</string>
+    <string name="select_end_date">Select End Date:</string>
+    <string name="load_graph">Load Graph</string>
 </resources>

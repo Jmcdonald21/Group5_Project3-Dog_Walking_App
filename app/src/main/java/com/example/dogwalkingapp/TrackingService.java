@@ -1,39 +1,30 @@
 package com.example.dogwalkingapp;
 
-import android.Manifest;
+
 import android.annotation.SuppressLint;
-import android.app.Notification;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Build;
+
 import android.os.Bundle;
 import android.os.IBinder;
+import android.text.format.Time;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.core.app.NotificationCompat;
-
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class TrackingService extends Service {
-    FusedLocationProviderClient fusedLocationClient;
-    Location PreviousLocation, CurrentLocation;
-    LocationCallback locationCallBack;
-    LocationListener listener;
-    LocationManager locationManager;
-    double distanceTraveled;
+    private Location PreviousLocation, CurrentLocation;
+    private LocationListener listener;
+    private LocationManager locationManager;
+    private double distanceTraveled;
+    private Long walkStartTime, walkEndTime;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -46,22 +37,33 @@ public class TrackingService extends Service {
     public void onCreate() {
         Toast.makeText(this, "Tracking Started", Toast.LENGTH_SHORT).show();
         listener = new LocationListener() {
+
+            Intent i = new Intent("GPS_UPDATE");
+            Bundle extras = new Bundle();
+
             @Override
             public void onLocationChanged(@NonNull Location location) {
                 CurrentLocation = location;
-                Intent i = new Intent("GPS_UPDATE");
+                if (walkStartTime == null) {
+                    walkStartTime = CurrentLocation.getTime();
+                    extras.putLong("walkStartTime", walkStartTime);
+                }
                 if (PreviousLocation == null) {
                     distanceTraveled = 0.0;
-                    i.putExtra("distanceTraveled", distanceTraveled);
+                    extras.putDouble("distanceTraveled", distanceTraveled);
+                    i.putExtras(extras);
                     sendBroadcast(i);
                 } else {
                     distanceTraveled += BigDecimal.valueOf((PreviousLocation.distanceTo(CurrentLocation) * 0.000621371192))
                             .setScale(2, RoundingMode.HALF_UP)
                             .doubleValue();
-                    i.putExtra("distanceTraveled", distanceTraveled);
+                    extras.putDouble("distanceTraveled", distanceTraveled);
+                    i.putExtras(extras);
                     sendBroadcast(i);
                 }
                 PreviousLocation = CurrentLocation;
+                walkEndTime = CurrentLocation.getTime();
+                extras.putLong("walkEndTime", walkEndTime);
             }
 
             @Override
@@ -72,7 +74,7 @@ public class TrackingService extends Service {
         };
 
         locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, listener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 0, listener);
 
     }
 
@@ -84,9 +86,9 @@ public class TrackingService extends Service {
 
     @Override
     public void onDestroy() {
-        Toast.makeText(this, "Tracking service Stopped", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Tracking Stopped", Toast.LENGTH_SHORT).show();
 
-        fusedLocationClient.removeLocationUpdates(locationCallBack);
+        locationManager.removeUpdates(listener);
 
     }
 
