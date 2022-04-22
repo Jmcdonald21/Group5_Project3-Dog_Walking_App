@@ -22,4 +22,6 @@
     <string name="select_start_date">Select Start Date:</string>
     <string name="select_end_date">Select End Date:</string>
     <string name="load_graph">Load Graph</string>
+    <string name="title_activity_home_screen">HomeScreen</string>
+    <string name="title_activity_goals_screen">GoalsScreen</string>
 </resources>
