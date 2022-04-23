@@ -18,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DogWalkingApp">
         <activity
+            android:name=".HomeScreen"
+            android:exported="false" />
+        <activity
             android:name=".LogoutScreen"
             android:exported="true"
             android:label="@string/title_activity_home_screen"
