@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.dogwalkingapp">
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -17,14 +18,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DogWalkingApp">
         <activity
+            android:name=".LogoutScreen"
+            android:exported="true"
+            android:label="@string/title_activity_home_screen"
+            android:theme="@style/Theme.DogWalkingApp.NoActionBar" />
+        <activity
+            android:name=".LoginScreen"
+            android:exported="true" />
+        <activity
             android:name=".GoalsScreen"
             android:exported="false"
             android:label="@string/title_activity_goals_screen"
-            android:theme="@style/Theme.DogWalkingApp.NoActionBar" />
-        <activity
-            android:name=".HomeScreen"
-            android:exported="false"
-            android:label="@string/title_activity_home_screen"
             android:theme="@style/Theme.DogWalkingApp.NoActionBar" />
         <activity
             android:name=".MainMenu"
