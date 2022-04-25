@@ -24,4 +24,5 @@
     <string name="load_graph">Load Graph</string>
     <string name="title_activity_home_screen">HomeScreen</string>
     <string name="title_activity_goals_screen">GoalsScreen</string>
+    <string name="welcome_to_walk_tracking_click_here_for_home_screen">Welcome to Walk Tracking! Click here for Home Screen</string>
 </resources>

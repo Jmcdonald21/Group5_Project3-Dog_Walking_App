@@ -217,7 +217,7 @@ public class WalkTracking extends AppCompatActivity {
      * @param view
      */
     public void onHome(View view) {
-        Intent intent = new Intent(this, StatScreen.class);
+        Intent intent = new Intent(this, HomeScreen.class);
         startActivity(intent);
     }
 

@@ -1,5 +1,6 @@
 package com.example.dogwalkingapp;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -61,5 +62,10 @@ public class StatScreen extends AppCompatActivity {
         barChart.setData(barData);
         barChart.getDescription().setText("Weekly Walks");
         barChart.animateY(2000);
+    }
+
+    public void onHome(View view) {
+        Intent intent = new Intent(this, HomeScreen.class);
+        startActivity(intent);
     }
 }
