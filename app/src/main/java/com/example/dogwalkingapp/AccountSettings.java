@@ -20,7 +20,7 @@ public class AccountSettings extends AppCompatActivity {
         HomeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(AccountSettings.this, AccountSettings.class));
+                startActivity(new Intent(AccountSettings.this, HomeScreen.class));
             }
         });
     }
