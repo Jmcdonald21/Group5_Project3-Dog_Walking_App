@@ -7,57 +7,56 @@
     tools:context=".HomeScreen">
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="355dp"
-        android:layout_height="38dp"
-        android:text="View Walking Activity"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.699"
-        app:backgroundTint= "#FF0000"
-        />
-
-
-    <Button
         android:id="@+id/button2"
-        android:layout_width="349dp"
+        android:layout_width="375dp"
         android:layout_height="40dp"
         android:text="Start Tracking Activity"
+        app:backgroundTint="#FF0000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.548"
+        app:layout_constraintHorizontal_bias="0.555"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.616"
-        app:backgroundTint= "#FF0000" />
+        app:layout_constraintVertical_bias="0.716" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="375dp"
+        android:layout_height="40dp"
+        android:text="View Walking Activity"
+        app:backgroundTint="#FF0000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.555"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.798" />
 
     <Button
         android:id="@+id/button3"
-        android:layout_width="374dp"
-        android:layout_height="38dp"
+        android:layout_width="375dp"
+        android:layout_height="40dp"
         android:text="manage walk goal"
+        app:backgroundTint="#FF0000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.888"
+        app:layout_constraintHorizontal_bias="0.555"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.797"
-        app:backgroundTint= "#FF0000" />/>
+        app:layout_constraintVertical_bias="0.878" />
 
     <Button
         android:id="@+id/button4"
-        android:layout_width="364dp"
-        android:layout_height="39dp"
+        android:layout_width="375dp"
+        android:layout_height="40dp"
         android:text="Account Settings"
         app:backgroundTint="#FF0000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintHorizontal_bias="0.555"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.868" />
+        app:layout_constraintVertical_bias="0.966" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -68,6 +67,8 @@
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.172"
-        app:srcCompat="@drawable/screen_shot_2022_04_19_at_1_49_26_pm" />
-    />
+        app:layout_constraintVertical_bias="0.065"
+
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

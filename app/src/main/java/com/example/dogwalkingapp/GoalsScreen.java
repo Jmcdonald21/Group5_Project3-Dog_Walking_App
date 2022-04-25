@@ -1,5 +1,6 @@
 package com.example.dogwalkingapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -7,6 +8,7 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
+import android.widget.Button;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -23,10 +25,10 @@ public class GoalsScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//
-//        binding = GoalsScreenBinding.inflate(getLayoutInflater());
-//        setContentView(binding.getRoot());
-//
+
+          binding = GoalsScreenBinding.inflate(getLayoutInflater());
+          setContentView(binding.getRoot());
+/*
 //        setSupportActionBar(binding.toolbar);
 //
 //        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_goals_screen);
@@ -40,6 +42,16 @@ public class GoalsScreen extends AppCompatActivity {
 //                        .setAction("Action", null).show();
 //            }
 //        });
+*/
+        //Home Screen Button
+        Button HomeButton = (Button) findViewById(R.id.button2);
+
+        HomeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(GoalsScreen.this, HomeScreen.class));
+            }
+        });
     }
 
     @Override

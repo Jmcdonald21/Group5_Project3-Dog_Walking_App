@@ -19,7 +19,7 @@
         android:theme="@style/Theme.DogWalkingApp">
         <activity
             android:name=".HomeScreen"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".LogoutScreen"
             android:exported="true"
@@ -30,12 +30,12 @@
             android:exported="true" />
         <activity
             android:name=".GoalsScreen"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/title_activity_goals_screen"
             android:theme="@style/Theme.DogWalkingApp.NoActionBar" />
         <activity
             android:name=".MainMenu"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".AccountSettings"
             android:exported="false" />

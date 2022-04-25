@@ -4,21 +4,16 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/DogWalkingApp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.14" />
-        <entry key="..\:/DogWalkingApp/app/src/main/res/layout/activity_account_settings.xml" value="0.17617753623188406" />
         <entry key="..\:/DogWalkingApp/app/src/main/res/layout/activity_main.xml" value="0.358695652173913" />
-        <entry key="..\:/DogWalkingApp/app/src/main/res/layout/main_menu.xml" value="0.18802083333333333" />
-        <entry key="..\:/DogWalkingApp/app/src/main/res/layout/stat_screen.xml" value="0.33" />
+        <entry key="..\:/DogWalkingApp/app/src/main/res/layout/stat_screen.xml" value="0.358695652173913" />
         <entry key="..\:/DogWalkingApp/app/src/main/res/layout/walk_tracking.xml" value="0.23369565217391305" />
-        <entry key="..\:/Users/black/AndroidStudioProjects/Group5_Project3-Dog_Walking_App/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2085" />
-        <entry key="..\:/Users/black/AndroidStudioProjects/Group5_Project3-Dog_Walking_App/app/src/main/res/layout/activity_account_settings.xml" value="0.15096251266464034" />
-        <entry key="..\:/Users/black/AndroidStudioProjects/Group5_Project3-Dog_Walking_App/app/src/main/res/layout/goals_screen.xml" value="0.25" />
-        <entry key="..\:/Users/black/AndroidStudioProjects/Group5_Project3-Dog_Walking_App/app/src/main/res/layout/home_screen.xml" value="0.1" />
-        <entry key="..\:/Users/black/AndroidStudioProjects/Group5_Project3-Dog_Walking_App/app/src/main/res/layout/login_screen.xml" value="0.2" />
-        <entry key="..\:/Users/black/AndroidStudioProjects/Group5_Project3-Dog_Walking_App/app/src/main/res/layout/main_menu.xml" value="0.33" />
-        <entry key="..\:/Users/black/AndroidStudioProjects/Group5_Project3-Dog_Walking_App/app/src/main/res/layout/stat_screen.xml" value="0.15896739130434784" />
-        <entry key="..\:/Users/black/AndroidStudioProjects/Group5_Project3-Dog_Walking_App/app/src/main/res/layout/walk_tracking.xml" value="0.15780141843971632" />
         <entry key="app/src/main/res/layout/activity_account_settings.xml" value="0.13728470111448834" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/goals_screen.xml" value="0.13728470111448834" />
+        <entry key="app/src/main/res/layout/home_screen.xml" value="0.19068756103515627" />
+        <entry key="app/src/main/res/layout/login_screen.xml" value="0.13697916666666668" />
+        <entry key="app/src/main/res/layout/logout_screen.xml" value="0.2296195652173913" />
+        <entry key="app/src/main/res/layout/main_menu.xml" value="0.15896739130434784" />
         <entry key="app/src/main/res/layout/stat_screen.xml" value="0.16259057971014493" />
         <entry key="app/src/main/res/layout/walk_tracking.xml" value="0.16259057971014493" />
       </map>
