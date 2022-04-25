@@ -28,6 +28,7 @@ public class MainMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_menu);
 
+        //WelcomeButton
         Button welcomeButton = (Button) findViewById(R.id.button);
         welcomeButton.setOnClickListener(new View.OnClickListener() {
             @Override
