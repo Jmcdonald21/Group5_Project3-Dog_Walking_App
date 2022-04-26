@@ -18,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DogWalkingApp">
         <activity
+            android:name=".RVScreen"
+            android:exported="true" />
+        <activity
             android:name=".HomeScreen"
             android:exported="true" />
         <activity
@@ -27,15 +30,16 @@
             android:theme="@style/Theme.DogWalkingApp.NoActionBar" />
         <activity
             android:name=".LoginScreen"
-            android:exported="true" >
-            <intent-filter >
+            android:exported="true">
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".GoalsScreen"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/title_activity_goals_screen"
             android:theme="@style/Theme.DogWalkingApp.NoActionBar" />
         <activity
@@ -43,7 +47,10 @@
             android:exported="true" />
         <activity
             android:name=".AccountSettings"
-            android:exported="false" />
+            android:exported="true" />
+        <activity
+            android:name=".databaseScreen"
+            android:exported="true" />
         <activity
             android:name=".WalkTracking"
             android:exported="true">

@@ -85,8 +85,6 @@ public class LoginScreen extends AppCompatActivity {
     }
 
     private void HomeScreen() {
-
-        finish();
         Intent intent = new Intent(getApplicationContext(), LogoutScreen.class);
 
     }
