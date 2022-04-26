@@ -24,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 
@@ -103,6 +104,8 @@ public class WalkTracking extends AppCompatActivity {
      */
     private String userName;
 
+    private String[] PERMISSIONS;
+
     /**
      * Override for the onCreate method of the WalkTracking activity class
      * @param savedInstanceState
@@ -113,6 +116,7 @@ public class WalkTracking extends AppCompatActivity {
         setContentView(R.layout.walk_tracking);
         trackingDisplay = findViewById(R.id.trackingCounter);
         updateGPS();
+
     }
 
     /**
@@ -225,11 +229,11 @@ public class WalkTracking extends AppCompatActivity {
      * Creates a method that generates the permission request to the user as well as provides the first user location data that will
      * be used when beginning the walk current being tracked by the user
      */
+
     private void updateGPS() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(WalkTracking.this);
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-            && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             fusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
                 @Override
                 public void onSuccess(Location location) {
@@ -239,9 +243,7 @@ public class WalkTracking extends AppCompatActivity {
         }
         else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                String[] PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION,
-                                        Manifest.permission.ACCESS_BACKGROUND_LOCATION};
-                ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSIONS_FINE_LOCATION);
+                ActivityCompat.requestPermissions(WalkTracking.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_FINE_LOCATION);
             }
         }
     }
