@@ -10,6 +10,8 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -18,10 +20,11 @@ import java.util.ArrayList;
 
 public class RVScreen extends AppCompatActivity {
 
+    ArrayList<Walks> walksArrayList = new ArrayList<>();
     SwipeRefreshLayout swipeRefreshLayout;
     RecyclerView recyclerView;
     RVAdapter adapter;
-    DAOWalker dao;
+    DAOWalks dao;
     boolean isLoading=false;
     String key =null;
     @Override
@@ -36,7 +39,7 @@ public class RVScreen extends AppCompatActivity {
         recyclerView.setLayoutManager(manager);
         adapter= new RVAdapter(this);
         recyclerView.setAdapter(adapter);
-        dao = new DAOWalker();
+        dao = new DAOWalks();
         loadData();
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
         {
@@ -62,31 +65,33 @@ public class RVScreen extends AppCompatActivity {
     {
 
         swipeRefreshLayout.setRefreshing(true);
-        dao.get(key).addListenerForSingleValueEvent(new ValueEventListener()
-        {
-            @SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot)
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null)
+            dao.getWalksByUID(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener()
             {
-                ArrayList<Walker> walkers = new ArrayList<>();
-                for (DataSnapshot data : snapshot.getChildren())
+                @SuppressLint("NotifyDataSetChanged")
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot)
                 {
-                    Walker walker = data.getValue(Walker.class);
-                    walker.setKey(data.getKey());
-                    walkers.add(walker);
-                    key = data.getKey();
+                    walksArrayList.clear();
+                    for (DataSnapshot data : snapshot.getChildren())
+                    {
+                        Walks walks = data.getValue(Walks.class);
+//                        walks.setKey(data.getKey());
+                        walksArrayList.add(walks);
+//                        key = data.getKey();
+                    }
+                    adapter.setItems(walksArrayList);
+                    adapter.notifyDataSetChanged();
+                    isLoading =false;
+                    swipeRefreshLayout.setRefreshing(false);
                 }
-                adapter.setItems(walkers);
-                adapter.notifyDataSetChanged();
-                isLoading =false;
-                swipeRefreshLayout.setRefreshing(false);
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error)
-            {
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError error)
+                {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+            });
     }
 }

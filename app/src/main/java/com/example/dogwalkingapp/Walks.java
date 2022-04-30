@@ -4,6 +4,8 @@ import java.util.Date;
 
 public class Walks {
 
+
+    private String name;
     private double distanceTraveled;
     private Date startDate;
     private Date endDate;
@@ -12,10 +14,12 @@ public class Walks {
     public Walks() {
     }
 
-    public Walks(double distanceTraveled, Date startDate, Date endDate) {
+    public Walks(double distanceTraveled, Date startDate, Date endDate, String uID, String name) {
         this.distanceTraveled = distanceTraveled;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.uID = uID;
+        this.name = name;
     }
 
     public String getuID() {
@@ -49,6 +53,14 @@ public class Walks {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 

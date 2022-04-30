@@ -41,7 +41,21 @@
                 android:text="Text"
                 android:textSize="20sp"
                 android:layout_marginBottom="5dp"
-                android:id="@+id/txt_time"/>
+                android:id="@+id/txt_startDate"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Text"
+                android:textSize="20sp"
+                android:layout_marginBottom="5dp"
+                android:id="@+id/txt_endDate"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Text"
+                android:textSize="20sp"
+                android:layout_marginBottom="5dp"
+                android:id="@+id/txt_uID"/>
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

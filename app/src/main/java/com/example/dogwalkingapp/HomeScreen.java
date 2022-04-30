@@ -91,8 +91,15 @@ public class HomeScreen extends AppCompatActivity {
             }
         });
 
+        Button viewWalks = (Button) findViewById(R.id.viewWalks_btn);
 
+        viewWalks.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomeScreen.this, RVScreen.class));
 
+            }
+        });
 
     }
 }

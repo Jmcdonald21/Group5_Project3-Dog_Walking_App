@@ -1,6 +1,8 @@
 package com.example.dogwalkingapp;
 
 
+import android.util.Log;
+
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -10,6 +12,7 @@ import java.util.HashMap;
 
 public class DAOWalks
 {
+    public static final String TAG = "DAOWalks";
     private DatabaseReference databaseReference;
     public DAOWalks()
     {
@@ -29,6 +32,13 @@ public class DAOWalks
     {
         return databaseReference.child(key).removeValue();
     }
+
+    public Query getWalksByUID(String uID){
+        Log.i(TAG, "Getting Walk");
+        return databaseReference.orderByChild("uID").equalTo(uID).limitToFirst(8);
+    }
+
+
 
     public Query get(String key)
     {

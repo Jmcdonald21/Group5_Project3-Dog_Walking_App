@@ -197,11 +197,10 @@ public class WalkTracking extends AppCompatActivity {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-
-
         DAOWalks daoWalks = new DAOWalks();
         Walks walks = new Walks();
         if (user != null){
+            walks.setName(user.getDisplayName());
             walks.setDistanceTraveled(distanceTraveled);
             walks.setStartDate(startDate);
             walks.setEndDate(endDate);
