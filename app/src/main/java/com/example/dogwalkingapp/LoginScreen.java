@@ -63,7 +63,6 @@ public class LoginScreen extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-
         //WelcomeButton
         Button welcomeButton = (Button) findViewById(R.id.button);
         welcomeButton.setOnClickListener(new View.OnClickListener() {
@@ -75,8 +74,6 @@ public class LoginScreen extends AppCompatActivity {
 
 
         google_img = findViewById(R.id.google);
-
-
         google_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

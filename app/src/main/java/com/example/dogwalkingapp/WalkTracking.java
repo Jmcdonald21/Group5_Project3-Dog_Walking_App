@@ -195,18 +195,26 @@ public class WalkTracking extends AppCompatActivity {
         hashMap.put("walkStartTime", startDate);
         hashMap.put("walkEndTime", endDate);
 
-        /*
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        databaseReference.child("Users")
-                .child(userName)
-                .setValue(hashMap)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Toast.makeText(WalkTracking.this,"hello", Toast.LENGTH_SHORT).show();                 }
-                });
 
-         */
+
+        DAOWalks daoWalks = new DAOWalks();
+        Walks walks = new Walks();
+        if (user != null){
+            walks.setDistanceTraveled(distanceTraveled);
+            walks.setStartDate(startDate);
+            walks.setEndDate(endDate);
+            walks.setuID(user.getUid());
+            daoWalks.add(walks).addOnSuccessListener(suc ->
+            {
+                Toast.makeText(this, "Walk was inserted", Toast.LENGTH_SHORT).show();
+            }).addOnFailureListener(er ->
+            {
+                Toast.makeText(this, "" + er.getMessage(), Toast.LENGTH_SHORT).show();
+            });
+        }
+
 
         trackingDisplay.setText(getString(R.string.click_start_tracking_to_begin));
         Intent i = new Intent(getApplicationContext(), TrackingService.class);

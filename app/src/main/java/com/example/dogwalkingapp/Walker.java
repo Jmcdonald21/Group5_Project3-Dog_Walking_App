@@ -5,6 +5,8 @@ public class Walker {
 
     private String Name;
     private String Time;
+
+
     private String key;
     public Walker()
     {
