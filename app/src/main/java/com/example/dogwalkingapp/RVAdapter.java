@@ -37,8 +37,8 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position)
     {
-        Walker e = null;
-        this.onBindViewHolder(holder,position,e);
+        Walker w = null;
+        this.onBindViewHolder(holder,position,w);
     }
 
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, Walker w)

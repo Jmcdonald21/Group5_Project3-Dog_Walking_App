@@ -24,11 +24,6 @@
             android:name=".HomeScreen"
             android:exported="true" />
         <activity
-            android:name=".LogoutScreen"
-            android:exported="true"
-            android:label="@string/title_activity_home_screen"
-            android:theme="@style/Theme.DogWalkingApp.NoActionBar" />
-        <activity
             android:name=".LoginScreen"
             android:exported="true">
             <intent-filter>
@@ -42,9 +37,6 @@
             android:exported="false"
             android:label="@string/title_activity_goals_screen"
             android:theme="@style/Theme.DogWalkingApp.NoActionBar" />
-        <activity
-            android:name=".MainMenu"
-            android:exported="true" />
         <activity
             android:name=".AccountSettings"
             android:exported="true" />
