@@ -41,9 +41,6 @@
             android:name=".AccountSettings"
             android:exported="true" />
         <activity
-            android:name=".databaseScreen"
-            android:exported="true" />
-        <activity
             android:name=".WalkTracking"
             android:exported="true">
             <intent-filter>

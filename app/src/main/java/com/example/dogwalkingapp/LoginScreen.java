@@ -28,7 +28,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-
 public class LoginScreen extends AppCompatActivity {
 
     public static final String TAG = "Login-Screen";
@@ -37,7 +36,6 @@ public class LoginScreen extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private SignInClient oneTapClient;
     private BeginSignInRequest signInRequest;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
