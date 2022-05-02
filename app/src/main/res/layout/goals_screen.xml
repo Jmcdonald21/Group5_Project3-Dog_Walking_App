@@ -36,7 +36,6 @@
         android:layout_width="278dp"
         android:layout_height="40dp"
         android:text="Home"
-        app:backgroundTint="#0000ff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.39"

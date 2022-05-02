@@ -5,85 +5,66 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
-    android:background="@color/background"
     tools:context=".StatScreen">
 
     <com.github.mikephil.charting.charts.BarChart
         android:id="@id/barChart"
-        android:layout_width="363dp"
-        android:layout_height="273dp"
+        android:layout_width="368dp"
+        android:layout_height="394dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <DatePicker
-        android:id="@+id/startDateSelector"
-        android:layout_width="160dp"
-        android:layout_height="249dp"
-        android:layout_marginBottom="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
-        app:layout_constraintEnd_toStartOf="@+id/endDateSelector"
-        app:layout_constraintHorizontal_bias="0.038"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <DatePicker
-        android:id="@+id/endDateSelector"
-        android:layout_width="165dp"
-        android:layout_height="249dp"
-        android:layout_marginBottom="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick='onHome'
         android:text="@string/home"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.133"
-        app:layout_constraintStart_toStartOf="parent"
-        android:onClick='onHome' />
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
+    <EditText
         android:id="@+id/textView"
-        android:layout_width="125dp"
-        android:layout_height="48dp"
-        android:text="@string/select_start_date"
+        android:layout_width="168dp"
+        android:layout_height="118dp"
+        android:layout_marginStart="28dp"
+        android:hint="@string/select_start_date"
         android:textAlignment="center"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/startDateSelector"
-        app:layout_constraintEnd_toStartOf="@+id/textView2"
-        app:layout_constraintHorizontal_bias="0.192"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.975" />
+        app:layout_constraintTop_toBottomOf="@+id/barChart"
+        app:layout_constraintVertical_bias="0.11" />
 
-    <TextView
+    <EditText
         android:id="@+id/textView2"
-        android:layout_width="128dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="8dp"
-        android:text="@string/select_end_date"
+        android:layout_width="156dp"
+        android:layout_height="115dp"
+        android:layout_marginEnd="16dp"
+        android:hint="@string/select_end_date"
         android:textAlignment="center"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/endDateSelector"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/barChart"
+        app:layout_constraintVertical_bias="0.103" />
 
     <Button
         android:id="@+id/loadGraph"
         android:layout_width="136dp"
         android:layout_height="51dp"
-        android:layout_marginBottom="16dp"
         android:onClick="loadGraph"
         android:text="@string/load_graph"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/button4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.883"
-        app:layout_constraintStart_toEndOf="@+id/button4" />
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintVertical_bias="0.828" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
