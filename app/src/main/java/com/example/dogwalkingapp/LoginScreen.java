@@ -42,7 +42,7 @@ public class LoginScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_screen);
 
-
+        //Initialization of the OneTapClient setup
         oneTapClient = Identity.getSignInClient(this);
         signInRequest = BeginSignInRequest.builder()
                 .setPasswordRequestOptions(BeginSignInRequest.PasswordRequestOptions.builder()
@@ -62,7 +62,7 @@ public class LoginScreen extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         //WelcomeButton
-        Button welcomeButton = (Button) findViewById(R.id.button);
+        Button welcomeButton = findViewById(R.id.button);
         welcomeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,12 +71,13 @@ public class LoginScreen extends AppCompatActivity {
         });
 
 
+        //Google sign in button, Starts the oneTapClient process.
         google_img = findViewById(R.id.google);
         google_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 oneTapClient.beginSignIn(signInRequest)
-                        .addOnSuccessListener((OnSuccessListener<BeginSignInResult>) result -> {
+                        .addOnSuccessListener(result -> {
                             try {
                                 startIntentSenderForResult(
                                         result.getPendingIntent().getIntentSender(), REQ_ONE_TAP,
@@ -85,7 +86,7 @@ public class LoginScreen extends AppCompatActivity {
                                 Log.e(TAG, "Couldn't start One Tap UI: " + e.getLocalizedMessage());
                             }
                         })
-                        .addOnFailureListener((OnFailureListener) e -> {
+                        .addOnFailureListener(e -> {
                             // No saved credentials found. Launch the One Tap sign-up flow, or
                             // do nothing and continue presenting the signed-out UI.
                             Log.d(TAG, e.getLocalizedMessage());
@@ -97,6 +98,7 @@ public class LoginScreen extends AppCompatActivity {
     }
 
 
+    //
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -138,6 +140,7 @@ public class LoginScreen extends AppCompatActivity {
 
     }
 
+    //Returns user to the "HomeScreen"
     private void HomeScreen() {
         Intent intent = new Intent(getApplicationContext(), AccountSettings.class);
         startActivity(intent);

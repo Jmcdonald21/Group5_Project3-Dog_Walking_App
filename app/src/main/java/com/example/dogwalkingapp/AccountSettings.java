@@ -38,6 +38,7 @@ public class AccountSettings extends AppCompatActivity {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+        //If the user is logged in this method saves the Name and Email to strings Name and Email.
         if (user != null) {
             String Name = user.getDisplayName();
             String Email = user.getEmail();
@@ -47,6 +48,7 @@ public class AccountSettings extends AppCompatActivity {
         }
 
         //Home Button
+        //Returns user to the "HomeScreen"
         Button HomeButton = (Button) findViewById(R.id.home_btn);
         HomeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +59,7 @@ public class AccountSettings extends AppCompatActivity {
 
     }
 
+    //Begins the sign out process for oneTapClient
     private void SignOut() {
 
         Identity.getSignInClient(this).signOut();

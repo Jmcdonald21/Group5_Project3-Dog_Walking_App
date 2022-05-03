@@ -7,15 +7,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.icu.text.DecimalFormat;
-import android.icu.util.Calendar;
 import android.location.Location;
-
-
-
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.format.Time;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,10 +19,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
-
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -78,15 +71,15 @@ public class WalkTracking extends AppCompatActivity {
     /**
      * New handler used to update textview UI to show current distance traveled during walk tracking
      */
-    private Handler updateCurrDistance = new Handler();
+    private final Handler updateCurrDistance = new Handler();
     /**
      * Variable storing the handler's delay time in milliseconds
      */
-    private int delay = 100; //milliseconds
+    private final int delay = 100; //milliseconds
     /**
      * New instance of decimal formatter for adjusting decimal placement length of distance traveled variable
      */
-    private DecimalFormat formatter = new DecimalFormat("0.00");
+    private final DecimalFormat formatter = new DecimalFormat("0.00");
     /**
      * Creates Firebase Database connectivity
      */
@@ -108,6 +101,7 @@ public class WalkTracking extends AppCompatActivity {
 
     /**
      * Override for the onCreate method of the WalkTracking activity class
+     *
      * @param savedInstanceState
      */
     @Override
@@ -122,6 +116,7 @@ public class WalkTracking extends AppCompatActivity {
     /**
      * Override for the OnRequestPermissionResult method used when checking permissions used during the walk tracking
      * associated with user location and GPS functionality
+     *
      * @param requestCode
      * @param permissions
      * @param grantResults
@@ -130,12 +125,11 @@ public class WalkTracking extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        switch(requestCode) {
+        switch (requestCode) {
             case PERMISSIONS_FINE_LOCATION:
-                if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     updateGPS();
-                }
-                else {
+                } else {
                     Toast.makeText(this, "This app requires permission to be granted in order to work properly", Toast.LENGTH_SHORT).show();
                     finish();
                 }
@@ -147,6 +141,7 @@ public class WalkTracking extends AppCompatActivity {
      * Creates new method for beginning the tracking service utilizing the user's GPS as well as location data.
      * This method stores all information being broadcast by the tracking service into variables that can then be
      * uploaded to the user's stored data on the Firebase Database
+     *
      * @param view
      */
     public void onStartTracking(View view) {
@@ -157,7 +152,7 @@ public class WalkTracking extends AppCompatActivity {
             broadcastReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-                    distanceTraveled = intent.getDoubleExtra("distanceTraveled",0);
+                    distanceTraveled = intent.getDoubleExtra("distanceTraveled", 0);
                     walkStartTime = intent.getLongExtra("walkStartTime", 0);
                     walkEndTime = intent.getLongExtra("walkEndTime", 0);
                     startDate = new Date(walkStartTime);
@@ -167,8 +162,8 @@ public class WalkTracking extends AppCompatActivity {
         }
         registerReceiver(broadcastReceiver, new IntentFilter("GPS_UPDATE"));
 
-        updateCurrDistance.postDelayed(new Runnable(){
-            public void run(){
+        updateCurrDistance.postDelayed(new Runnable() {
+            public void run() {
                 updateTracker(formatter.format(distanceTraveled));
                 updateCurrDistance.postDelayed(this, delay);
             }
@@ -178,15 +173,17 @@ public class WalkTracking extends AppCompatActivity {
 
     /**
      * Creates a method that updates the textview display from the XML document associated with the WalkTracking class's activity
+     *
      * @param distance
      */
     public void updateTracker(String distance) {
-        trackingDisplay.setText("Total Distance Walked:\n"+ distance + " Miles");
+        trackingDisplay.setText("Total Distance Walked:\n" + distance + " Miles");
     }
 
     /**
      * Creates a method that stop the service tracking the user using GPS and location data, as well as updates the user's firebase database
      * profile to accurately reflect all tracking information being generated by the current walk being tracked
+     *
      * @param view
      */
     public void onStopTracking(View view) {
@@ -196,10 +193,12 @@ public class WalkTracking extends AppCompatActivity {
         hashMap.put("walkEndTime", endDate);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
         DAOWalks daoWalks = new DAOWalks();
         Walks walks = new Walks();
-        if (user != null){
+
+        //If the user is successfully signed in sets the Name, DistanceTravelled, StartDate, EndDate, and UID to the newly created
+        //Walks object and inserts it into the database for future use.
+        if (user != null) {
             walks.setName(user.getDisplayName());
             walks.setDistanceTraveled(distanceTraveled);
             walks.setStartDate(startDate);
@@ -225,6 +224,7 @@ public class WalkTracking extends AppCompatActivity {
 
     /**
      * Creates method that navigates the user to the "home" screen via the "home" button being pressed
+     *
      * @param view
      */
     public void onHome(View view) {
@@ -247,8 +247,7 @@ public class WalkTracking extends AppCompatActivity {
                     CurrentLocation = location;
                 }
             });
-        }
-        else {
+        } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 ActivityCompat.requestPermissions(WalkTracking.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_FINE_LOCATION);
             }

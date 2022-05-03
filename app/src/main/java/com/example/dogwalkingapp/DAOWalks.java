@@ -16,23 +16,26 @@ public class DAOWalks
     private DatabaseReference databaseReference;
     public DAOWalks()
     {
-        FirebaseDatabase db =FirebaseDatabase.getInstance();
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
         databaseReference = db.getReference(Walks.class.getSimpleName());
     }
+
+    //Adds a walks object to the database.
     public Task<Void> add(Walks walks)
     {
         return databaseReference.push().setValue(walks);
     }
 
-    public Task<Void> update(String key, HashMap<String ,Object> hashMap)
-    {
-        return databaseReference.child(key).updateChildren(hashMap);
-    }
-    public Task<Void> remove(String key)
-    {
-        return databaseReference.child(key).removeValue();
-    }
+//    public Task<Void> update(String key, HashMap<String ,Object> hashMap)
+//    {
+//        return databaseReference.child(key).updateChildren(hashMap);
+//    }
+//    public Task<Void> remove(String key)
+//    {
+//        return databaseReference.child(key).removeValue();
+//    }
 
+    //Returns the walks corresponding to the UID associated with the user currently logged in 8 at a time.
     public Query getWalksByUID(String uID){
         Log.i(TAG, "Getting Walk");
         return databaseReference.orderByChild("uID").equalTo(uID).limitToFirst(8);
@@ -40,17 +43,17 @@ public class DAOWalks
 
 
 
-    public Query get(String key)
-    {
-        if(key == null)
-        {
-            return databaseReference.orderByKey().limitToFirst(8);
-        }
-        return databaseReference.orderByKey().startAfter(key).limitToFirst(8);
-    }
-
-    public Query get()
-    {
-        return databaseReference;
-    }
+//    public Query get(String key)
+//    {
+//        if(key == null)
+//        {
+//            return databaseReference.orderByKey().limitToFirst(8);
+//        }
+//        return databaseReference.orderByKey().startAfter(key).limitToFirst(8);
+//    }
+//
+//    public Query get()
+//    {
+//        return databaseReference;
+//    }
 }
