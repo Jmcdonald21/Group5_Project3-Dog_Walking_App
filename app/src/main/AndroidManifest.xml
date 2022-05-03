@@ -34,7 +34,7 @@
         </activity>
         <activity
             android:name=".GoalsScreen"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/title_activity_goals_screen"
             android:theme="@style/Theme.DogWalkingApp.NoActionBar" />
         <activity

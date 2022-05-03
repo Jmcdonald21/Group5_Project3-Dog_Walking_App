@@ -24,6 +24,7 @@ public class HomeScreen extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
     private HomeScreenBinding binding;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,18 +54,10 @@ public class HomeScreen extends AppCompatActivity {
     */
         //start tracking button
         Button StartTrackButton = (Button) findViewById(R.id.button2);
-
-        StartTrackButton.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(HomeScreen.this, WalkTracking.class));
-            }
-        });
+        StartTrackButton.setOnClickListener(v -> startActivity(new Intent(HomeScreen.this, WalkTracking.class)));
 
         //View tracking button
         Button ViewTrackingButton = (Button) findViewById(R.id.button);
-
         ViewTrackingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
