@@ -2,6 +2,7 @@ package com.example.dogwalkingapp;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
@@ -22,11 +23,11 @@ class WalksTest {
         w.setStartDate(testDate);
         w.setEndDate(testDate);
 
-        assertEquals("Test Name", w.getName());
-        assertEquals("TestUID", w.getuID());
-        assertEquals(55.55, w.getDistanceTraveled());
-        assertEquals(testDate, w.getStartDate());
-        assertEquals(testDate, w.getEndDate());
+        Assertions.assertEquals("Test Name", w.getName());
+        Assertions.assertEquals("TestUID", w.getuID());
+        Assertions.assertEquals(55.55, w.getDistanceTraveled());
+        Assertions.assertEquals(testDate, w.getStartDate());
+        Assertions.assertEquals(testDate, w.getEndDate());
 
     }
 }

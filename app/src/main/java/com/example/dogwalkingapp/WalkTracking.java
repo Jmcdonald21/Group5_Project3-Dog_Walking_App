@@ -148,6 +148,7 @@ public class WalkTracking extends AppCompatActivity {
         Intent i = new Intent(getApplicationContext(), TrackingService.class);
         startService(i);
 
+        // creates the broadcast receiver that receives info from the tracking service
         if (broadcastReceiver == null) {
             broadcastReceiver = new BroadcastReceiver() {
                 @Override
@@ -162,6 +163,7 @@ public class WalkTracking extends AppCompatActivity {
         }
         registerReceiver(broadcastReceiver, new IntentFilter("GPS_UPDATE"));
 
+        // updates the ui for displaying the current distance traveled
         updateCurrDistance.postDelayed(new Runnable() {
             public void run() {
                 updateTracker(formatter.format(distanceTraveled));
@@ -214,6 +216,7 @@ public class WalkTracking extends AppCompatActivity {
         }
 
 
+        // updates the ui on tracking stop
         trackingDisplay.setText(getString(R.string.click_start_tracking_to_begin));
         Intent i = new Intent(getApplicationContext(), TrackingService.class);
         stopService(i);

@@ -6,6 +6,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * WalkerVH creates the textview/itemview information for use with the RVScreen to display user information
+ */
 public class WalkerVH extends RecyclerView.ViewHolder {
 
     public TextView txt_name,txt_uID, txt_option, txt_startDate, txt_endDate;

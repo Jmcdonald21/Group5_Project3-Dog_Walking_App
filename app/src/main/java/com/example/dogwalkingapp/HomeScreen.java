@@ -19,8 +19,13 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.dogwalkingapp.databinding.HomeScreenBinding;
 
+/**
+ * Homescreen class for creating the activity that generates the homescreen UI as well as all
+ * associated buttons
+ */
 public class HomeScreen extends AppCompatActivity {
 
+    // declare variables for homescreen
     private AppBarConfiguration appBarConfiguration;
     private HomeScreenBinding binding;
 
@@ -32,26 +37,6 @@ public class HomeScreen extends AppCompatActivity {
         binding = HomeScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        /*
-        setSupportActionBar(binding.toolbar);
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_home_screen);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-    }
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_home_screen);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
-    }
-    */
         //start tracking button
         Button StartTrackButton = (Button) findViewById(R.id.button2);
         StartTrackButton.setOnClickListener(v -> startActivity(new Intent(HomeScreen.this, WalkTracking.class)));

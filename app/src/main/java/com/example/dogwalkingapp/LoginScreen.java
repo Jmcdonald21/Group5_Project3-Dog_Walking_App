@@ -28,11 +28,17 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+/**
+ * LoginScreen class creates the activity that generates the LoginScreen for the app as
+ * well as all associated UI
+ */
 public class LoginScreen extends AppCompatActivity {
 
+    // declare variables needed for Google one tap sign in
     public static final String TAG = "Login-Screen";
     private static final int REQ_ONE_TAP = 2;
     ImageView google_img;
+    // declare variables needed to link google sign in to firebase database
     private FirebaseAuth mAuth;
     private SignInClient oneTapClient;
     private BeginSignInRequest signInRequest;
@@ -98,7 +104,12 @@ public class LoginScreen extends AppCompatActivity {
     }
 
 
-    //
+    /**
+     * Overrides onActivityResult to log user in when onActivityResult is called by the process
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

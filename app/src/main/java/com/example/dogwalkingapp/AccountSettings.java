@@ -13,11 +13,16 @@ import com.google.android.gms.auth.api.identity.Identity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * Account Settings class creates the screen for displaying user account settings as well as provides the logout function
+ * for the user
+ */
 public class AccountSettings extends AppCompatActivity {
 
     public static final String TAG = "Account_Settings";
-
+    // creates textview instances for UI
     TextView name, email;
+    // creates instance of button for logout
     Button logout;
 
     @Override
@@ -25,6 +30,7 @@ public class AccountSettings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_settings);
 
+        // associates previously creates variables with their assigned UI aspects
         name = findViewById(R.id.name);
         email = findViewById(R.id.email);
         logout = findViewById(R.id.logout_btn);
@@ -36,6 +42,7 @@ public class AccountSettings extends AppCompatActivity {
             }
         });
 
+        // create instance of currently logged in user to firebase
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         //If the user is logged in this method saves the Name and Email to strings Name and Email.

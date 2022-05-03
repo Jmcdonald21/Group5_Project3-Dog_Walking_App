@@ -10,6 +10,10 @@ import com.google.firebase.database.Query;
 
 import java.util.HashMap;
 
+/**
+ * DAOWalks class creates the database reference for the firebase database associated with the currently
+ * logged in user
+ */
 public class DAOWalks
 {
     public static final String TAG = "DAOWalks";

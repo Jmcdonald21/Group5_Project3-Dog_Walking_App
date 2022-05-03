@@ -37,15 +37,21 @@ import java.util.Date;
  * based on user defined sections of time
  */
 public class StatScreen extends AppCompatActivity {
+    // creates new instance of DAOWalks
     DAOWalks dao;
+    // Creates new instance of startTime date
     Date startTime = new Date();
+    // Creates new instance of endTime date
     Date endTime = new Date();
+    // Creates new arraylist for storing walk from database
     ArrayList<Walks> walks = new ArrayList<>();
+    // Creates new arraylist for generating graphical analysis
     ArrayList<BarEntry> walksGraph = new ArrayList<>();
-    ArrayList<Walks> useWalks = new ArrayList<>();
+    // creates new instance of current firebase user for id
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    TextView startDate, endDate;
+    // creates new instances of textstart and textend for displaying calendar
     EditText eTextStart, eTextEnd;
+    // creates new instance of datepicker for displaying calendar
     DatePickerDialog picker;
 
     /**
@@ -57,6 +63,7 @@ public class StatScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.stat_screen);
+        // Create local instances during the creation of the screen for all UI
         eTextStart = (EditText) findViewById(R.id.textView);
         eTextEnd = (EditText) findViewById(R.id.textView2);
         eTextStart.setInputType(InputType.TYPE_NULL);
@@ -64,6 +71,7 @@ public class StatScreen extends AppCompatActivity {
         eTextStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //local instance of calendar for getting date
                 final Calendar cldr = Calendar.getInstance();
                 int day = cldr.get(Calendar.DAY_OF_MONTH);
                 int month = cldr.get(Calendar.MONTH);
@@ -77,6 +85,9 @@ public class StatScreen extends AppCompatActivity {
                                 startTime.setDate(dayOfMonth);
                                 startTime.setMonth(monthOfYear);
                                 startTime.setYear(year - 1900);
+                                startTime.setHours(0);
+                                startTime.setMinutes(0);
+                                startTime.setSeconds(0);
                             }
                         }, year, month, day);
                 picker.show();
@@ -85,6 +96,7 @@ public class StatScreen extends AppCompatActivity {
         eTextEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // local instance of calendar for getting date
                 final Calendar cldr = Calendar.getInstance();
                 int day = cldr.get(Calendar.DAY_OF_MONTH);
                 int month = cldr.get(Calendar.MONTH);
@@ -98,6 +110,9 @@ public class StatScreen extends AppCompatActivity {
                                 endTime.setDate(dayOfMonth);
                                 endTime.setMonth(monthOfYear);
                                 endTime.setYear(year - 1900);
+                                endTime.setHours(23);
+                                endTime.setMinutes(59);
+                                endTime.setSeconds(59);
                             }
                         }, year, month, day);
                 picker.show();
@@ -111,6 +126,7 @@ public class StatScreen extends AppCompatActivity {
      * @param view
      */
     public void loadGraph(View view) {
+        // creates new barchart for displaying graph
         BarChart barChart = findViewById(R.id.barChart);
         dao = new DAOWalks();
 
@@ -119,13 +135,13 @@ public class StatScreen extends AppCompatActivity {
             public void onCallback(ArrayList<Walks> walks) {
                 System.out.println("Number Walks: " + walks.size());
                 walksGraph.clear();
-
+                // iterate through the walks saved for the user and display them if the time is between the selected time
                 for(int i = 0; i < walks.size(); i++){
                     if (walks.get(i).getStartDate().after(startTime) && walks.get(i).getEndDate().before(endTime)) {
                         walksGraph.add(new BarEntry(i + 1, (float) walks.get(i).getDistanceTraveled()));
                     }
                 }
-
+                // create new bardataset for displaying graph
                 BarDataSet barDataSet = new BarDataSet(walksGraph, "Miles Walked");
                 barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
                 barDataSet.setValueTextColor(Color.BLACK);
@@ -141,6 +157,10 @@ public class StatScreen extends AppCompatActivity {
         });
         }
 
+    /**
+     * onHome creates the intent upon button press for going to the homescreen
+     * @param view
+     */
         public void onHome (View view){
             Intent intent = new Intent(this, HomeScreen.class);
             startActivity(intent);
@@ -150,6 +170,10 @@ public class StatScreen extends AppCompatActivity {
         void onCallback(ArrayList<Walks> walk);
     }
 
+    /**
+     * Read the data in from the database for use locally to be displayed
+     * @param myCallback
+     */
     public void readData(MyCallBack myCallback) {
         if (user != null) {
             dao.getWalksByUID(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {

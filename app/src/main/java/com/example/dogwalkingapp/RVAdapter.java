@@ -20,6 +20,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
+/**
+ * RVAdapter class creates the adapter to translate the walks object and insert it into
+ * the firebase database
+ */
 public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private Context context;
     ArrayList<Walks> list = new ArrayList<>();
@@ -46,6 +50,13 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         this.onBindViewHolder(holder,position,w);
     }
 
+    /**
+     * onBindViewHolder sets up the necessary format for inserting data from the application
+     * into the firebase database
+     * @param holder
+     * @param position
+     * @param w
+     */
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, Walks w)
     {
 
@@ -58,38 +69,6 @@ public class RVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         vh.txt_uID.setText(walks.getuID());
         vh.txt_startDate.setText(simpleDateFormat.format(walks.getStartDate()));
         vh.txt_endDate.setText(simpleDateFormat.format(walks.getEndDate()));
-
-//        vh.txt_option.setOnClickListener(v->
-//        {
-//            PopupMenu popupMenu =new PopupMenu(context,vh.txt_option);
-//            popupMenu.inflate(R.menu.option_menu);
-//            popupMenu.setOnMenuItemClickListener(item->
-//            {
-//                switch (item.getItemId())
-//                {
-//                    case R.id.menu_edit:
-//                        Intent intent=new Intent(context,databaseScreen.class);
-//                        intent.putExtra("EDIT", (Parcelable) walks);
-//                        context.startActivity(intent);
-//                        break;
-//                    case R.id.menu_remove:
-//                        DAOWalker dao=new DAOWalker();
-//                        dao.remove(walks.getKey()).addOnSuccessListener(suc->
-//                        {
-//                            Toast.makeText(context, "Record is removed", Toast.LENGTH_SHORT).show();
-//                            notifyItemRemoved(position);
-//                            list.remove(walks);
-//                        }).addOnFailureListener(er->
-//                        {
-//                            Toast.makeText(context, ""+er.getMessage(), Toast.LENGTH_SHORT).show();
-//                        });
-//
-//                        break;
-//                }
-//                return false;
-//            });
-//            popupMenu.show();
-//        });
     }
 
     @Override

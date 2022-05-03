@@ -70,7 +70,7 @@ public class TrackingService extends Service {
 
             Intent i = new Intent("GPS_UPDATE");
             Bundle extras = new Bundle();
-
+            //Generates new gps data each time the location changes
             @Override
             public void onLocationChanged(@NonNull Location location) {
                 CurrentLocation = location;

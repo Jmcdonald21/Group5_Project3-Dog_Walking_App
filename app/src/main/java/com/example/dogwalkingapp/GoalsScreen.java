@@ -3,27 +3,20 @@ package com.example.dogwalkingapp;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.example.dogwalkingapp.databinding.GoalsScreenBinding;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+/**
+ * Goals screen class creates the activity for displaying the goal screen UI
+ */
 public class GoalsScreen extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
@@ -36,7 +29,7 @@ public class GoalsScreen extends AppCompatActivity {
         binding = GoalsScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        //stuff for firebase
+        //firebase connection information
         FirebaseDatabase rootNode;
         DatabaseReference mDatabase;
         mDatabase = FirebaseDatabase.getInstance().getReference();
